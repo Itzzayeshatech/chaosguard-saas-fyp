@@ -1,0 +1,4 @@
+﻿=== ChaosGuard Demo Log (9:52 PM IST) ===
+3 READY: nginx-788454b977-8j88b, jdw7t, rmnxz
+KILLED: pod "nginx-788454b977-8j88b" force deleted
+RECOVERY: nginx-788454b977-pszkg Pending → Running (4s)

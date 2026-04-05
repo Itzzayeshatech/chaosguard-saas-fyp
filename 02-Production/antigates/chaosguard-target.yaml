@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chaosguard-nginx-antigate
+  namespace: chaosguard
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: chaosguard-antigate
+  template:
+    metadata:
+      labels:
+        app: chaosguard-antigate
+    spec:
+      containers:
+      - name: nginx-antigate
+        image: nginx:1.25-alpine
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: chaosguard-antigate-svc
+  namespace: chaosguard
+spec:
+  selector:
+    app: chaosguard-antigate
+  ports:
+  - port: 80
+    targetPort: 80
