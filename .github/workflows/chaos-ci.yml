@@ -1,0 +1,22 @@
+name: ChaosGuard CI/CD
+
+on: [push, workflow_dispatch]
+
+jobs:
+  chaos-test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Start ChaosGuard
+      run: |
+        docker build -t chaosguard .
+        docker run -d -p 5000:5000 --name chaosguard-api chaosguard
+        
+    - name: Deploy Targets
+      run: |
+        docker run -d --name nginx-target1 -p 8081:80 nginx:alpine
+        docker run -d --name nginx-target2 -p 8082:80 nginx:alpine
+        
+    - name: Run Chaos Tests
+      run: pwsh chaos-test.ps1
