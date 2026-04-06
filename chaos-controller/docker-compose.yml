@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  chaosguard-api:
+    build: .
+    ports:
+      - "5000:5000"
+    container_name: chaosguard-api
+
+  chaos-controller:
+    build: ./chaos-controller
+    ports:
+      - "6000:6000" 
+    container_name: chaos-controller
+    depends_on:
+      - chaosguard-api
+
+  nginx-targets:
+    image: nginx:alpine
+    deploy:
+      replicas: 3
+    ports:
+      - "8081-8083:80"
